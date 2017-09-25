@@ -1,4 +1,4 @@
-FROM composer:1.4
+FROM composer:1.5
 
 # add a non-root user and give them ownership
 RUN adduser -D -u 9000 app && \
@@ -7,9 +7,7 @@ RUN adduser -D -u 9000 app && \
     chown -R app:app /repo && \
     # collector code
     mkdir /usr/src/collector && \
-    chown -R app:app /usr/src/collector && \
-    # composer cache
-    chown -R app:app /composer/cache
+    chown -R app:app /usr/src/collector
 
 # run everything from here on as non-root
 USER app
