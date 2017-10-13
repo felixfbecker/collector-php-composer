@@ -15,3 +15,10 @@ cases:
   dependencies_json: test/dependencies_subdirectory.json
   user_config:
     path: app
+
+- name: Drupal composer test
+  dockerfile: Dockerfile
+  repo_contents: test/repo_drupal
+  dependencies_json: test/dependencies_drupal.json
+  user_config:
+    path: /
