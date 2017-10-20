@@ -22,3 +22,10 @@ cases:
   dependencies_json: test/dependencies_drupal.json
   user_config:
     path: /
+
+- name: Basic test with no lockfile
+  dockerfile: Dockerfile
+  repo_contents: test/repo_no_lockfile
+  dependencies_json: test/dependencies.json
+  user_config:
+    path: /

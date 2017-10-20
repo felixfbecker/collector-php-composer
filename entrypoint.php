@@ -16,11 +16,23 @@ function schema_version($version) {
 
 $collected = array();
 
-$composer_json = json_decode(file_get_contents(path_join(path_join('/repo', $argv[1]), 'composer.json')), true);
+// the directory the user pointed us to
+$composer_dir = path_join('/repo', $argv[1]);
+
+$composer_json_path = path_join($composer_dir, 'composer.json');
+if (!file_exists($composer_json_path)) {
+    throw new Exception("$composer_json_path does not exist! A composer.json file is required.");
+}
+$composer_json = json_decode(file_get_contents($composer_json_path), true);
 $composer_require = array_key_exists('require', $composer_json) ? $composer_json['require'] : array();
 $composer_require_dev = array_key_exists('require-dev', $composer_json) ? $composer_json['require-dev'] : array();
 
-$composer_lock = json_decode(file_get_contents(path_join(path_join('/repo', $argv[1]), 'composer.lock')), true);
+$composer_lock_path = path_join($composer_dir, 'composer.lock');
+if (!file_exists($composer_lock_path)) {
+    echo "$composer_lock_path not found. Running \"composer install\" to generate one...\n";
+    shell_exec("cd $composer_dir && composer install --ignore-platform-reqs --no-scripts");
+}
+$composer_lock = json_decode(file_get_contents($composer_lock_path), true);
 $composer_packages = array_key_exists('packages', $composer_lock) ? $composer_lock['packages'] : array();
 $composer_packages_dev = array_key_exists('packages-dev', $composer_lock) ? $composer_lock['packages-dev'] : array();
 
